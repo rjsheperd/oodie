@@ -1,23 +1,18 @@
 # Builder
-FROM golang:1.10 as builder
+FROM resin/%%RESIN_MACHINE_NAME%%-golang:1.10-slim
 # RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 WORKDIR /go/src/github.com/rjsheperd/oodie
-COPY vendor /go/src/
+COPY vendor /go/src
 
 COPY main.go .
 
-RUN env CGO_ENABLED=0 GOARCH=arm GOOS=linux \
+RUN CGO_ENABLED=0 GOARCH=arm GOOS=linux \
   go build -a -installsuffix cgo -o oodie .
-
-# Server
-FROM alpine:latest
-# FROM resin/%%RESIN_MACHINE_NAME%%-golang:1.10-slim
-# RUN apk --no-cache add ca-certificates
 
 WORKDIR /app
 
-COPY --from=builder /go/src/github.com/rjsheperd/oodie/oodie .
+RUN cp /go/src/github.com/rjsheperd/oodie/oodie .
 COPY start.sh .
 
 # Enable systemd init system in container
