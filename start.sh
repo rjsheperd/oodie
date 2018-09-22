@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-url=tcp://127.0.0.1:40899
+url="tcp://127.0.0.1:40899"
 
 ./oodie server "$url" 'server' & server=$!
 
