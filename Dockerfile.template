@@ -7,7 +7,8 @@ COPY vendor /go/src/
 
 COPY main.go .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o oodie .
+RUN env CGO_ENABLED=0 GOARCH=arm GOOS=linux \
+  go build -a -installsuffix cgo -o oodie .
 
 # Server
 FROM alpine:latest
