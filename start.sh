@@ -19,7 +19,3 @@ url=tcp://127.0.0.1:40899
 ./oodie client $url client0 & client0=$!
 ./oodie client $url client1 & client1=$!
 ./oodie client $url client2 & client2=$!
-sleep 5
-kill $server $client0 $client1 $client2
-
-
