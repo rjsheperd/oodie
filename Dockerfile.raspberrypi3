@@ -1,16 +1,20 @@
-FROM resin/raspberrypi3-golang:1.10-slim
+# Builder
+FROM resin/raspberrypi3-golang:1.10-slim as builder
 
 WORKDIR /go/src/github.com/rjsheperd/oodie
-COPY vendor /go/src/
+COPY vendor /go/src
 
 COPY main.go .
 
 RUN CGO_ENABLED=0 GOARCH=arm GOOS=linux \
   go build -a -installsuffix cgo -o oodie .
 
+# Server
+FROM resin/raspberrypi3-alpine:latest
+
 WORKDIR /app
 
-RUN cp /go/src/github.com/rjsheperd/oodie/oodie .
+COPY --from=builder /go/src/github.com/rjsheperd/oodie/oodie .
 COPY start.sh .
 
 # Enable systemd init system in container
