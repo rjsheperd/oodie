@@ -15,7 +15,15 @@
 # limitations under the License.
 
 url=tcp://127.0.0.1:40899
-./oodie server $url server & server=$! && sleep 1
-./oodie client $url client0 & client0=$!
-./oodie client $url client1 & client1=$!
-./oodie client $url client2 & client2=$!
+
+./oodie server "$url" 'server' & server=$!
+
+sleep 2
+
+./oodie client "$url" 'client0' & client0=$!
+./oodie client "$url" 'client1' & client1=$!
+./oodie client "$url" 'client2' & client2=$!
+
+sleep 10
+
+kill $server $client0 $client1 $client2
