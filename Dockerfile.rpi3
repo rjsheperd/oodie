@@ -10,8 +10,9 @@ COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o oodie .
 
 # Server
+FROM resin/raspberrypi3-golang:1.10-slim
 # FROM alpine:latest
-FROM resin/%%RESIN_MACHINE_NAME%%-golang:1.10-slim
+# FROM resin/%%RESIN_MACHINE_NAME%%-golang:1.10-slim
 # RUN apk --no-cache add ca-certificates
 
 WORKDIR /app
